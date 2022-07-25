@@ -14,7 +14,7 @@ if (empty($token)){
 }
 $server = $_SERVER['SERVER_NAME'];
 if (!$_SERVER['HTTP_X_FORWARDED_PROTO'] and $_SERVER['HTTP_X_FORWARDED_PROTO'] != "https" ){
-	die("A url do bot deve ser https ");
+	die("A url do bot deve ser https");
 }
 
 $res = file_get_contents('https://api.telegram.org/bot'.$token.'/setwebhook?url='."https://".$server.$dir);
@@ -23,15 +23,15 @@ $res = file_get_contents('https://api.telegram.org/bot'.$token.'/setwebhook?url=
 
 
 if ($res){
-	if (strpos($res, 'Webhook was set') !==false || strpos($res, 'Webhook is already set')!==false){
+	if (strpos($res, 'O webhook foi definido') !==false || strpos($res, 'O webhook já está definido')!==false){
 		file_put_contents('./token.txt', trim($token));
 		die("bot Online");
 	}else{
-		die("ocooreu um erro:".json_decode($res,true)['description']);
+		die("ocooreu um erro:".json_decode($res,true)['Descrição']);
 	}
 
 }else{
-	die("Ocorreu um erro ao seta a url !");
+	die("Ocorreu um erro ao definir uma url!");
 
 	echo $res;
 }
