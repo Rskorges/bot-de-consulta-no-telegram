@@ -35,13 +35,15 @@ function clientes($message){
 		    ,]];
 		
  
-$botoes[] = ['text'=>"💳 Comprar Consul",'callback_data'=>"loja"]; 
+$botoes[] = ['text'=>"INICIAR APOSTAS",'callback_data'=>"loja"]; 
+
 $botoes[] = ['text'=>"",'callback_data'=>"valores"];
- $botoes[] = ['text'=>"💠 Comprar Saldo",'callback_data'=>"comprasaldo"]; 
- 
- $botoes[] = ['text'=>"🧰 Carteira",'callback_data'=>"menu_infos"]; 
+
+$botoes[] = ['text'=>"ESCALAÇÃO DOS TIMES",'callback_data'=>"menu_infos"]; 
 
 $botoes[] = ['text'=>"",'callback_data'=>"ajuda"]; 
+
+$botoes[] = ['text'=>"💠 PIX",'callback_data'=>"pix"]; 
 
 $botoes[] = ['text'=>"🛠️ Criador do BOT",'callback_data'=>"dev_info"]; 
 
@@ -49,7 +51,7 @@ $botoes[] = ['text'=>"💡 Suporte",'url'=>"https://t.me/rskorges"];
  
  $menu['inline_keyboard'] = array_chunk($botoes, 2); 
  
- $txt ="*Seja bem vindo(a) $nome, TEXTO*";
+ $txt ="*Seja bem vindo(a) $nome*";
  
 		bot("sendMessage",array("chat_id"=> $chat_id , "text" => $txt,"reply_markup" =>$menu,"reply_to_message_id"=> $message['message_id'],"parse_mode" => 'Markdown'));
 	 
@@ -175,7 +177,7 @@ function users($message , $query , $type , $position){
 
 		$txt .= "\n🧰<b>Id da carteira:</b> {$idcarteira}\n";
 		$txt .= "💎<b>Nome: </b>{$nome}\n";
-		$txt .= "💰<b>Saldo: </b> {$saldo}\n";
+		$txt .= "💰<b>Aposta: </b> {$saldo}\n";
 		$txt .= "📅<b>Data Cadastro: </b> {$dadta}\n";
 
 	}
@@ -286,13 +288,13 @@ $totalccs = (sizeof($historicocc[$chat_id]['ccs'])) ? sizeof($historicocc[$chat_
 	$botoes[] = ['text'=>" Voltar",'callback_data'=>"volta_menu"];
 	$menu['inline_keyboard'] = array_chunk($botoes, 2);
 
-	$txt = "*💰 SUA CARTEIRA PESSOAL
+	$txt = "*VOCÊ ACABOU DE APOSTAR!
 
 ⥬ ID: *`$chat_id`
 
-⥬ *Saldo:* `$r{$cliente[saldo]}`
+⥬ *Aposta:* `$r{$cliente[saldo]}`
 
-⥬ *Compras:* `$totalccs`";
+⥬ *Retornos:* `$totalccs`";
 		bot("editMessageText",array("message_id" => $message['message_id'] ,"chat_id"=> $chat_id , "text" => $txt,"reply_markup" =>$menu,"reply_to_message_id"=> $message['message_id'],"parse_mode" => 'Markdown'));
 
 }
@@ -323,9 +325,7 @@ function dev_info($message){
 
 *❗️ | Não faço parte do suporte nem atendimento
 
-👨🏽‍💻 | Bot by: @rskorges
-
-❗️ | Não faço parte do suporte nem atendimento*";
+👨🏽‍💻 | by: @rskorges*";
 	bot("editMessageText",array( "message_id" => $message['message_id'] , "chat_id"=> $chat_id , "text" => $txt,"reply_to_message_id"=> $message['message_id'],"parse_mode" => 'Markdown',"reply_markup" =>$menu));
 }
 
@@ -396,17 +396,17 @@ O seu gift de *R$$valor,00 *foi *Resgatado*.
 
 
 /*
-	compra saldo
+	pix
 */
 
-function comprasaldo($message){
+function pix($message){
 	$chat_id = $message["chat"]["id"];
 	$confibot = $GLOBALS[confibot];
 
-	$txt = "💰 Comprar __saldo__\nPara adicionar saldo à sua conta você deve realizar o pagamento para o {$confibot[userDono]}\n\n";
-	$txt .= "*Formas de pagamento*:\n💠picpay\n💠nubank\n💠boleto\n💠loterica\n💠pix\n💠super digital\n💠itau\n\n";
-	$txt .= "💎Apos a *confirmacao do pagamento* vc ira receber um codigo , *me envie que irei add seu saldo*😉\n\n";
-	$txt .= "⚠️*Por motivos de seguraca seu saldo tem a Validade de 1 semana*\!";
+	$txt = "💠 ESCOLHA ABAIXO UMA CHAVE 💠\nVocê deve realizar o pagamento para o {$confibot[userDono]}\n\n";
+	$txt .= "*CHAVE ALEATORIA*:\n🔑<b>123456789</b>\n👤<b>NOME COMPLETO</b>\n<b>R$</b> {$saldo}";
+	$txt .= "💎Apos a *confirmacao do pagamento* vc ira receber um codigo, *me envie que irei colocar na lista o seu nome completo*😉\n\n";
+	$txt .= "⚠️*Confirme se as informações estão corretas!";
 
 	$menu =  ['inline_keyboard' => [
 		[['text'=>"🔚 Volta",'callback_data'=>"volta_loja"]]
@@ -713,18 +713,20 @@ function loja($message){
         $b[] = ['text'=>"⎚ Mix",'callback_data'=>"mixconsul"];
 
         $b[] = ['text'=>"✪ Unitárias CCs",'callback_data'=>"error"];
-        $b[] = ['text'=>"",'callback_data'=>"nada"];
-        $b[] = ['text'=>"Voltar",'callback_data'=>"volta_menu"];
+        
+		$b[] = ['text'=>"",'callback_data'=>"nada"];
+        
+		$b[] = ['text'=>"Voltar",'callback_data'=>"volta_menu"];
         
         
 	
 	$menu['inline_keyboard'] = array_chunk($b, 2); 
 	
-	bot("editMessageText",array( "message_id" => $message['message_id'] , "chat_id"=> $chat_id , "text" => "*💳 Comprar Consul*
+	bot("editMessageText",array( "message_id" => $message['message_id'] , "chat_id"=> $chat_id , "text" => "*Escolha uma partida e deixe seu palpite!*
 
-⥬ _Escolha uma opção para continua a compra_
+⥬ _Acerte o placar
 
-⥬ Saldo *$r{$cliente[saldo]}*","reply_markup" =>$menu,"reply_to_message_id"=> $message['message_id'],"parse_mode" => 'Markdown'));
+⥬ SALDO: *$r{$cliente[saldo]}*","reply_markup" =>$menu,"reply_to_message_id"=> $message['message_id'],"parse_mode" => 'Markdown'));
 }
 
 function error($message, $query){
@@ -755,13 +757,15 @@ function menu($message){
 		    ,]];
 	
 
-$botoes[] = ['text'=>"💳 Comprar Consul",'callback_data'=>"loja"]; 
+$botoes[] = ['text'=>"INICIAR APOSTAS",'callback_data'=>"loja"]; 
+
 $botoes[] = ['text'=>"",'callback_data'=>"valores"];
- $botoes[] = ['text'=>"💠 Comprar Saldo",'callback_data'=>"comprasaldo"]; 
- 
- $botoes[] = ['text'=>"🧰 Carteira",'callback_data'=>"menu_infos"]; 
+
+$botoes[] = ['text'=>"ESCALAÇÃO DOS TIMES",'callback_data'=>"menu_infos"]; 
 
 $botoes[] = ['text'=>"",'callback_data'=>"ajuda"]; 
+
+$botoes[] = ['text'=>"💠 PIX",'callback_data'=>"pix"]; 
 
 $botoes[] = ['text'=>"🛠️ Criador do BOT",'callback_data'=>"dev_info"]; 
 
@@ -769,7 +773,7 @@ $botoes[] = ['text'=>"💡 Suporte",'url'=>"https://t.me/rskorges"];
  
  $menu['inline_keyboard'] = array_chunk($botoes, 2); 
  
- $txt ="*Seja bem vindo(a) $nome, TEXTO*";
+ $txt ="*Seja bem vindo(a) $nome*";
  
 	bot("editMessageText",array( "message_id" => $message['message_id'] , "chat_id"=> $chat_id , "text" => $txt,"reply_markup" =>$menu,"reply_to_message_id"=> $message['message_id'],"parse_mode" => 'Markdown'));
 	
